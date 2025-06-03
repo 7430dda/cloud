@@ -1,6 +1,7 @@
 from spyne import Application, rpc, ServiceBase, Unicode
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
+import os
 
 class HelloWorldService(ServiceBase):
     @rpc(Unicode, _returns=Unicode)
@@ -18,7 +19,7 @@ wsgi_app = WsgiApplication(app)
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
-    # Bind to 0.0.0.0 so other devices on LAN can access
-    server = make_server('0.0.0.0', 8000, wsgi_app)
-    print("Server running on http://192.168.56.1:8000/?wsdl")
+    port = int(os.environ.get("PORT", 8000))
+    server = make_server('0.0.0.0', port, wsgi_app)
+    print(f"Server running on http://0.0.0.0:{port}/?wsdl")
     server.serve_forever()

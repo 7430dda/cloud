@@ -1,0 +1,5 @@
+spyne
+wsgiref
+flask
+zeep
+python version == 3.10
