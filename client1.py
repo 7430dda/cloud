@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-client = Client('http://192.168.56.1:8000/?wsdl')
+client = Client('https://cloud-00y8.onrender.com')
 
 HTML = '''
     <form method="post">
