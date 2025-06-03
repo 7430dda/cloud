@@ -1,0 +1,27 @@
+from flask import Flask, request, render_template_string
+from zeep import Client
+
+app = Flask(__name__)
+
+client = Client('http://192.168.56.1:8000/?wsdl')
+
+HTML = '''
+    <form method="post">
+        Name: <input type="text" name="name">
+        <input type="submit" value="Say Hello">
+    </form>
+    {% if result %}
+        <p><b>Result:</b> {{ result }}</p>
+    {% endif %}
+'''
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    result = None
+    if request.method == 'POST':
+        name = request.form['name']
+        result = client.service.say_hello(name)
+    return render_template_string(HTML, result=result)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
